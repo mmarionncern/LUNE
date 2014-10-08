@@ -1,0 +1,157 @@
+#include "TROOT.h"
+#include <vector>
+#include <cmath>
+#include <string>
+#include <iostream>
+
+#ifndef IClassifierReader__def
+#define IClassifierReader__def
+
+class IClassifierReader {
+
+public:
+
+// constructor
+IClassifierReader() : fStatusIsClean( true ) {}
+virtual ~IClassifierReader() {}
+
+// return classifier response
+virtual double GetMvaValue( const std::vector<double>& inputValues ) const = 0;
+
+// returns classifier status
+bool IsStatusClean() const { return fStatusIsClean; }
+
+protected:
+
+bool fStatusIsClean;
+ClassDef(IClassifierReader,0)
+};
+
+#endif
+
+class NeuralNet : public IClassifierReader {
+
+public:
+
+// constructor
+NeuralNet( std::vector<std::string>& theInputVars )
+: IClassifierReader(),
+fClassName( "NeuralNet" ),
+fNvars( 6 ),
+fIsNormalised( false )
+{
+// the training input variables
+const char* inputVars[] = { "mtb", "meb", "met", "tmassT", "dphiLM", "STbjet" };
+
+// sanity checks
+if (theInputVars.size() <= 0) {
+std::cout << "Problem in class "" << fClassName << "": empty input vector" << std::endl;
+fStatusIsClean = false;
+}
+
+if (theInputVars.size() != fNvars) {
+std::cout << "Problem in class "" << fClassName << "": mismatch in number of input values: "
+<< theInputVars.size() << " != " << fNvars << std::endl;
+fStatusIsClean = false;
+}
+
+// validate input variables
+for (size_t ivar = 0; ivar < theInputVars.size(); ivar++) {
+if (theInputVars[ivar] != inputVars[ivar]) {
+std::cout << "Problem in class "" << fClassName << "": mismatch in input variable names" << std::endl
+<< " for variable [" << ivar << "]: " << theInputVars[ivar].c_str() << " != " << inputVars[ivar] << std::endl;
+fStatusIsClean = false;
+}
+}
+
+// initialize min and max vectors (for normalisation)
+fVmin[0] = -1;
+fVmax[0] = 1;
+fVmin[1] = -1;
+fVmax[1] = 1;
+fVmin[2] = -1;
+fVmax[2] = 1;
+fVmin[3] = -1;
+fVmax[3] = 1;
+fVmin[4] = -1;
+fVmax[4] = 1;
+fVmin[5] = -1;
+fVmax[5] = 1;
+
+// initialize input variable types
+fType[0] = 'F';
+fType[1] = 'F';
+fType[2] = 'F';
+fType[3] = 'F';
+fType[4] = 'F';
+fType[5] = 'F';
+
+// initialize constants
+Initialize();
+
+// initialize transformation
+InitTransform();
+}
+
+// destructor
+virtual ~NeuralNet() {
+Clear(); // method-specific
+}
+
+// the classifier response
+// "inputValues" is a vector of input values in the same order as the
+// variables given to the constructor
+double GetMvaValue( const std::vector<double>& inputValues ) const;
+
+private:
+
+// method-specific destructor
+void Clear();
+
+// input variable transformation
+
+double fMin_1[3][6];
+double fMax_1[3][6];
+void InitTransform_1();
+void Transform_1( std::vector<double> & iv, int sigOrBgd ) const;
+void InitTransform();
+void Transform( std::vector<double> & iv, int sigOrBgd ) const;
+
+// common member variables
+const char* fClassName;
+
+const size_t fNvars;
+size_t GetNvar()           const { return fNvars; }
+char   GetType( int ivar ) const { return fType[ivar]; }
+
+// normalisation of input variables
+const bool fIsNormalised;
+bool IsNormalised() const { return fIsNormalised; }
+double fVmin[6];
+double fVmax[6];
+double NormVariable( double x, double xmin, double xmax ) const {
+// normalise to output range: [-1, 1]
+return 2*(x - xmin)/(xmax - xmin) - 1.0;
+}
+
+// type of input variable: 'F' or 'I'
+char   fType[6];
+
+// initialize internal variables
+void Initialize();
+double GetMvaValue__( const std::vector<double>& inputValues ) const;
+
+// private members (method specific)
+
+double ActivationFnc(double x) const;
+double OutputActivationFnc(double x) const;
+
+int fLayers;
+int fLayerSize[3];
+double fWeightMatrix0to1[12][7];   // weight matrix from layer 0 to 1
+double fWeightMatrix1to2[1][12];   // weight matrix from layer 1 to 2
+
+double * fWeights[3];
+ClassDef(NeuralNet,0)
+};
+

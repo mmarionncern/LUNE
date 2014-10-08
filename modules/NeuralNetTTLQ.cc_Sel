@@ -1,0 +1,311 @@
+#include "modules/NeuralNetTTLQ.hh"
+
+ClassImp(NeuralNet)
+
+void NeuralNet::Initialize()
+{
+   // build network structure
+   fLayers = 3;
+   fLayerSize[0] = 8; fWeights[0] = new double[8]; 
+   fLayerSize[1] = 13; fWeights[1] = new double[13]; 
+   fLayerSize[2] = 1; fWeights[2] = new double[1]; 
+   // weight matrix from layer 0 to 1
+   fWeightMatrix0to1[0][0] = -0.589438367629528;
+   fWeightMatrix0to1[1][0] = 2.0800132295222;
+   fWeightMatrix0to1[2][0] = 1.76323556054847;
+   fWeightMatrix0to1[3][0] = 1.44313128517791;
+   fWeightMatrix0to1[4][0] = -1.64747115971427;
+   fWeightMatrix0to1[5][0] = -1.00305424351741;
+   fWeightMatrix0to1[6][0] = 0.00651964353042168;
+   fWeightMatrix0to1[7][0] = 2.1840009689677;
+   fWeightMatrix0to1[8][0] = -0.810458187563764;
+   fWeightMatrix0to1[9][0] = -1.40797518853399;
+   fWeightMatrix0to1[10][0] = -1.55205928736479;
+   fWeightMatrix0to1[11][0] = -0.742241227085997;
+   fWeightMatrix0to1[0][1] = -0.466480636426524;
+   fWeightMatrix0to1[1][1] = 0.170719040782025;
+   fWeightMatrix0to1[2][1] = 0.205607516577653;
+   fWeightMatrix0to1[3][1] = 0.756217968070677;
+   fWeightMatrix0to1[4][1] = -0.273442843725979;
+   fWeightMatrix0to1[5][1] = 1.87472789317751;
+   fWeightMatrix0to1[6][1] = 0.990355220854666;
+   fWeightMatrix0to1[7][1] = 1.31974114950847;
+   fWeightMatrix0to1[8][1] = -0.64486839354132;
+   fWeightMatrix0to1[9][1] = -1.11996885230244;
+   fWeightMatrix0to1[10][1] = -0.435363245653969;
+   fWeightMatrix0to1[11][1] = 0.0191279227002641;
+   fWeightMatrix0to1[0][2] = -1.37672323765191;
+   fWeightMatrix0to1[1][2] = 0.412083534149391;
+   fWeightMatrix0to1[2][2] = 2.34171105609689;
+   fWeightMatrix0to1[3][2] = -1.03396438150392;
+   fWeightMatrix0to1[4][2] = -1.97533474778401;
+   fWeightMatrix0to1[5][2] = 0.446207278958563;
+   fWeightMatrix0to1[6][2] = 1.07011339391058;
+   fWeightMatrix0to1[7][2] = 1.48557821025113;
+   fWeightMatrix0to1[8][2] = -0.558576441255057;
+   fWeightMatrix0to1[9][2] = -0.651742210143996;
+   fWeightMatrix0to1[10][2] = -1.46057623381785;
+   fWeightMatrix0to1[11][2] = -0.308549446330327;
+   fWeightMatrix0to1[0][3] = -2.19764795875211;
+   fWeightMatrix0to1[1][3] = 1.88114069068512;
+   fWeightMatrix0to1[2][3] = -1.21235506491814;
+   fWeightMatrix0to1[3][3] = 1.42306408673514;
+   fWeightMatrix0to1[4][3] = 0.550488571770751;
+   fWeightMatrix0to1[5][3] = 0.636546310998691;
+   fWeightMatrix0to1[6][3] = 2.0037796918912;
+   fWeightMatrix0to1[7][3] = 1.4982363237775;
+   fWeightMatrix0to1[8][3] = -1.47659337568169;
+   fWeightMatrix0to1[9][3] = -1.42822260607402;
+   fWeightMatrix0to1[10][3] = -1.59790589955527;
+   fWeightMatrix0to1[11][3] = 0.0358927179714656;
+   fWeightMatrix0to1[0][4] = 1.33467511612523;
+   fWeightMatrix0to1[1][4] = 1.13310260691111;
+   fWeightMatrix0to1[2][4] = 1.66043633518475;
+   fWeightMatrix0to1[3][4] = 1.13933843936209;
+   fWeightMatrix0to1[4][4] = -1.77398742215499;
+   fWeightMatrix0to1[5][4] = 1.48784038099502;
+   fWeightMatrix0to1[6][4] = -1.98649291688171;
+   fWeightMatrix0to1[7][4] = -0.0300614697188933;
+   fWeightMatrix0to1[8][4] = -0.91826993589118;
+   fWeightMatrix0to1[9][4] = -1.55132384467162;
+   fWeightMatrix0to1[10][4] = 0.319251867416899;
+   fWeightMatrix0to1[11][4] = 0.301694468967733;
+   fWeightMatrix0to1[0][5] = -2.12418034554669;
+   fWeightMatrix0to1[1][5] = 0.745612413758966;
+   fWeightMatrix0to1[2][5] = -0.922537333570758;
+   fWeightMatrix0to1[3][5] = 0.999882790596326;
+   fWeightMatrix0to1[4][5] = 0.40657288120835;
+   fWeightMatrix0to1[5][5] = -0.286980539235095;
+   fWeightMatrix0to1[6][5] = 1.63423136115963;
+   fWeightMatrix0to1[7][5] = -0.653522233106828;
+   fWeightMatrix0to1[8][5] = 0.0999208720836957;
+   fWeightMatrix0to1[9][5] = -0.793105784962593;
+   fWeightMatrix0to1[10][5] = -2.27279236928945;
+   fWeightMatrix0to1[11][5] = -1.22467746175997;
+   fWeightMatrix0to1[0][6] = -0.43256703192603;
+   fWeightMatrix0to1[1][6] = 0.65736688512931;
+   fWeightMatrix0to1[2][6] = 0.78580044001596;
+   fWeightMatrix0to1[3][6] = -0.169452633908317;
+   fWeightMatrix0to1[4][6] = -0.991341253221389;
+   fWeightMatrix0to1[5][6] = -1.42048580419715;
+   fWeightMatrix0to1[6][6] = 0.256020491055422;
+   fWeightMatrix0to1[7][6] = 0.39875404881651;
+   fWeightMatrix0to1[8][6] = 1.75338749310314;
+   fWeightMatrix0to1[9][6] = 0.450406760538065;
+   fWeightMatrix0to1[10][6] = -0.0330168835573158;
+   fWeightMatrix0to1[11][6] = -0.693764453695516;
+   fWeightMatrix0to1[0][7] = -2.63751779221257;
+   fWeightMatrix0to1[1][7] = -1.36596602663396;
+   fWeightMatrix0to1[2][7] = 0.73342237868684;
+   fWeightMatrix0to1[3][7] = -1.1209803922571;
+   fWeightMatrix0to1[4][7] = -1.29433522946037;
+   fWeightMatrix0to1[5][7] = -2.55870802922009;
+   fWeightMatrix0to1[6][7] = 1.78106558652924;
+   fWeightMatrix0to1[7][7] = -1.01429330158565;
+   fWeightMatrix0to1[8][7] = 1.70339069040856;
+   fWeightMatrix0to1[9][7] = -1.53431352220926;
+   fWeightMatrix0to1[10][7] = -4.66167390761788;
+   fWeightMatrix0to1[11][7] = 1.82480768707254;
+   // weight matrix from layer 1 to 2
+   fWeightMatrix1to2[0][0] = 0.806771303247145;
+   fWeightMatrix1to2[0][1] = -0.738400213777188;
+   fWeightMatrix1to2[0][2] = -0.543528366689735;
+   fWeightMatrix1to2[0][3] = 0.339816311541442;
+   fWeightMatrix1to2[0][4] = -0.572297865060269;
+   fWeightMatrix1to2[0][5] = -1.22333434857701;
+   fWeightMatrix1to2[0][6] = 0.575616766402356;
+   fWeightMatrix1to2[0][7] = 0.283739489989428;
+   fWeightMatrix1to2[0][8] = -0.618639746673292;
+   fWeightMatrix1to2[0][9] = 0.281259167695846;
+   fWeightMatrix1to2[0][10] = -0.752126001402229;
+   fWeightMatrix1to2[0][11] = -0.496336577571854;
+   fWeightMatrix1to2[0][12] = -0.0322558303692358;
+}
+
+double NeuralNet::GetMvaValue__( const std::vector<double>& inputValues ) const
+{
+   if (inputValues.size() != (unsigned int)fLayerSize[0]-1) {
+      std::cout << "Input vector needs to be of size " << fLayerSize[0]-1 << std::endl;
+      return 0;
+   }
+
+   for (int l=0; l<fLayers; l++)
+      for (int i=0; i<fLayerSize[l]; i++) fWeights[l][i]=0;
+
+   for (int l=0; l<fLayers-1; l++)
+      fWeights[l][fLayerSize[l]-1]=1;
+
+   for (int i=0; i<fLayerSize[0]-1; i++)
+      fWeights[0][i]=inputValues[i];
+
+   // layer 0 to 1
+   for (int o=0; o<fLayerSize[1]-1; o++) {
+      for (int i=0; i<fLayerSize[0]; i++) {
+         double inputVal = fWeightMatrix0to1[o][i] * fWeights[0][i];
+         fWeights[1][o] += inputVal;
+      }
+      fWeights[1][o] = ActivationFnc(fWeights[1][o]);
+   }
+   // layer 1 to 2
+   for (int o=0; o<fLayerSize[2]; o++) {
+      for (int i=0; i<fLayerSize[1]; i++) {
+         double inputVal = fWeightMatrix1to2[o][i] * fWeights[1][i];
+         fWeights[2][o] += inputVal;
+      }
+      fWeights[2][o] = OutputActivationFnc(fWeights[2][o]);
+   }
+
+   return fWeights[2][0];
+}
+
+double NeuralNet::ActivationFnc(double x) const {
+   // hyperbolic tan
+   return tanh(x);
+}
+double NeuralNet::OutputActivationFnc(double x) const {
+   // identity
+   return x;
+}
+   
+// Clean up
+void NeuralNet::Clear() 
+{
+   // nothing to clear
+}
+   double NeuralNet::GetMvaValue( const std::vector<double>& inputValues ) const
+   {
+      // classifier response value
+      double retval = 0;
+
+      // classifier response, sanity check first
+      if (!IsStatusClean()) {
+         std::cout << "Problem in class \"" << fClassName << "\": cannot return classifier response"
+                   << " because status is dirty" << std::endl;
+         retval = 0;
+      }
+      else {
+         if (IsNormalised()) {
+            // normalise variables
+            std::vector<double> iV;
+            int ivar = 0;
+            for (std::vector<double>::const_iterator varIt = inputValues.begin();
+                 varIt != inputValues.end(); varIt++, ivar++) {
+               iV.push_back(NormVariable( *varIt, fVmin[ivar], fVmax[ivar] ));
+            }
+            Transform( iV, -1 );
+            retval = GetMvaValue__( iV );
+         }
+         else {
+            std::vector<double> iV;
+            int ivar = 0;
+            for (std::vector<double>::const_iterator varIt = inputValues.begin();
+                 varIt != inputValues.end(); varIt++, ivar++) {
+               iV.push_back(*varIt);
+            }
+            Transform( iV, -1 );
+            retval = GetMvaValue__( iV );
+         }
+      }
+
+      return retval;
+   }
+
+//_______________________________________________________________________
+void NeuralNet::InitTransform_1()
+{
+   // Normalization transformation, initialisation
+   fMin_1[0][0] = 30.1995506287;
+   fMax_1[0][0] = 680.760498047;
+   fMin_1[1][0] = 30.0017776489;
+   fMax_1[1][0] = 353.145111084;
+   fMin_1[2][0] = 30.0017776489;
+   fMax_1[2][0] = 680.760498047;
+   fMin_1[0][1] = 30.9244670868;
+   fMax_1[0][1] = 1169.95349121;
+   fMin_1[1][1] = 30.0019454956;
+   fMax_1[1][1] = 272.886535645;
+   fMin_1[2][1] = 30.0019454956;
+   fMax_1[2][1] = 1169.95349121;
+   fMin_1[0][2] = 62.7955703735;
+   fMax_1[0][2] = 1722.10266113;
+   fMin_1[1][2] = 21.1928577423;
+   fMax_1[1][2] = 1346.10180664;
+   fMin_1[2][2] = 21.1928577423;
+   fMax_1[2][2] = 1722.10266113;
+   fMin_1[0][3] = 69.8637390137;
+   fMax_1[0][3] = 1998.47119141;
+   fMin_1[1][3] = 28.8981246948;
+   fMax_1[1][3] = 696.73425293;
+   fMin_1[2][3] = 28.8981246948;
+   fMax_1[2][3] = 1998.47119141;
+   fMin_1[0][4] = 0.0646460130811;
+   fMax_1[0][4] = 779.743408203;
+   fMin_1[1][4] = 0.0311075374484;
+   fMax_1[1][4] = 510.023986816;
+   fMin_1[2][4] = 0.0311075374484;
+   fMax_1[2][4] = 779.743408203;
+   fMin_1[0][5] = 1.06293094158;
+   fMax_1[0][5] = 1762.92504883;
+   fMin_1[1][5] = 0;
+   fMax_1[1][5] = 744.35357666;
+   fMin_1[2][5] = 0;
+   fMax_1[2][5] = 1762.92504883;
+   fMin_1[0][6] = -3.10384058952;
+   fMax_1[0][6] = 3.00050234795;
+   fMin_1[1][6] = -3.14048290253;
+   fMax_1[1][6] = 3.13704562187;
+   fMin_1[2][6] = -3.14048290253;
+   fMax_1[2][6] = 3.13704562187;
+}
+
+//_______________________________________________________________________
+void NeuralNet::Transform_1( std::vector<double>& iv, int cls) const
+{
+   // Normalization transformation
+   if (cls < 0 || cls > 2) {
+   if (2 > 1 ) cls = 2;
+      else cls = 2;
+   }
+   const int nVar = 7;
+
+   // get indices of used variables
+
+   // define the indices of the variables which are transformed by this transformation
+   std::vector<int> indicesGet;
+   std::vector<int> indicesPut;
+
+   indicesGet.push_back( 0);
+   indicesGet.push_back( 1);
+   indicesGet.push_back( 2);
+   indicesGet.push_back( 3);
+   indicesGet.push_back( 4);
+   indicesGet.push_back( 5);
+   indicesGet.push_back( 6);
+   indicesPut.push_back( 0);
+   indicesPut.push_back( 1);
+   indicesPut.push_back( 2);
+   indicesPut.push_back( 3);
+   indicesPut.push_back( 4);
+   indicesPut.push_back( 5);
+   indicesPut.push_back( 6);
+
+   std::vector<double> dv(nVar);
+   for (int ivar=0; ivar<nVar; ivar++) dv[ivar] = iv[indicesGet.at(ivar)];
+   for (int ivar=0;ivar<7;ivar++) {
+      double offset = fMin_1[cls][ivar];
+      double scale  = 1.0/(fMax_1[cls][ivar]-fMin_1[cls][ivar]);
+      iv[indicesPut.at(ivar)] = (dv[ivar]-offset)*scale * 2 - 1;
+   }
+}
+
+//_______________________________________________________________________
+void NeuralNet::InitTransform()
+{
+   InitTransform_1();
+}
+
+//_______________________________________________________________________
+void NeuralNet::Transform( std::vector<double>& iv, int sigOrBgd ) const
+{
+   Transform_1( iv, sigOrBgd );
+}

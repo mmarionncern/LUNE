@@ -1,0 +1,82 @@
+#General parameters =====================
+[analyse]	TestAnalysis
+
+[dir]		LQ2012test
+[tName]		rootTupleTree/tree
+[hName]		rootTupleTree/nEventProc
+		
+[mcOnly]	0
+[runFilter]	0
+[runNumber]	139466
+
+[skim]		0
+
+#observables =====================
+
+[observables]	pt_l1
+
+# Binning, title, style ============
+[yTitle]   	  number of events
+[binning]	  2
+[addBinBkg]	  2
+[rangeY]	  0.1	6000.
+[rangeX]	  40.	380.
+[xDiv]		  5	6	0
+[yDiv]		  5	6	0
+[logYScale]	  0
+[overFlowBin]	  1
+[underFlowBin]	  1
+[showDMCRatio]	  0
+[addSystematics]	0
+[markerSize]	  0.9
+[lineWidth]	  2
+
+# Analyse parameters =================
+[N1Cut]	  	     0
+[InvCut]  	     0
+[Nm1Var]  	     charge
+[Norm]	  	     .
+
+# Lumis( or XSections ) pb-1 & KFactors =====
+[lumi]	    11930
+
+[useXS]	    1
+
+[LumisXS]	ZJets_2l	3503.71
+[LumisXS]  	WJets_ln	36257.2
+[LumisXS]  	TTbarJets	234
+[LumisXS]  	T_tWchan	11.1
+[LumisXS]  	T_tchan		30.7
+[LumisXS]  	T_schan		1.76
+[LumisXS]  	Tbar_tWchan	11.1
+[LumisXS]  	Tbar_tchan	56.4
+[LumisXS]  	Tbar_schan	3.79
+[LumisXS]  	ZZ_4l		0.0843
+[LumisXS]  	WZ_3ln		1.05
+[LumisXS]  	WWJets_2l2n	5.998
+[LumisXS]  	WW		55.47
+[LumisXS]  	ZZ_2l2n		0.33
+[LumisXS] 	ZZ		8.27
+[LumisXS]  	WZ		33.59
+[LumisXS]  	LQ1000_tb	1.
+[LumisXS]  	LQ400_tb	1.
+
+[KFactors] 	ZJets_2l 	1.
+[KFactors] 	TTbarJets 	1.00
+[KFactors] 	T_tWchan 	1.
+[KFactors] 	T_tchan 	1.
+[KFactors] 	Tbar_tWchan 	1.
+[KFactors] 	Tbar_tchan 	1.
+[KFactors] 	ZZ_4l 		1.
+[KFactors] 	WZ_3ln 		1.
+[KFactors] 	WWJets_2l2n 	1.
+[KFactors] 	ZZ_2l2n 	1.
+[KFactors] 	ZZ 		1.
+[KFactors] 	WZ 		1.
+[KFactors] 	LQ1000_tb	1.
+[KFactors] 	LQ400_tb	1.
+
+# Samples ================================
+[Samples]	  LQ1000_tb	LQ1000		kRed+1
+[Samples]	  LQ400_tb	LQ400		kBlue+1
+
